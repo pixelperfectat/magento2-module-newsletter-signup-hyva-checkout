@@ -2,12 +2,14 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
-         backupGlobals="false">
+         backupGlobals="false"
+         bootstrap="Test/bootstrap.php">
     <coverage>
         <include>
             <directory suffix=".php">src/Api</directory>
             <directory suffix=".php">src/Controller</directory>
             <directory suffix=".php">src/Exception</directory>
+            <directory suffix=".php">src/Magewire</directory>
             <directory suffix=".php">src/Model</directory>
             <directory suffix=".php">src/Observer</directory>
             <directory suffix=".php">src/Plugin</directory>

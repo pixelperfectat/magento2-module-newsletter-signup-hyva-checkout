@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- The sign-up line, under the payment methods of the payment step -->
+        <referenceContainer name="checkout.payment.methods.after">
+            <block name="pixelperfect.newsletter-signup.checkout-line"
+                   template="PixelPerfect_NewsletterSignupHyvaCheckout::checkout/signup-line.phtml">
+                <arguments>
+                    <argument name="magewire" xsi:type="object">PixelPerfect\NewsletterSignupHyvaCheckout\Magewire\Checkout\SignupLine</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

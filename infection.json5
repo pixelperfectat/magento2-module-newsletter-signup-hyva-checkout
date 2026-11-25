@@ -5,6 +5,7 @@
             "src/Api",
             "src/Controller",
             "src/Exception",
+            "src/Magewire",
             "src/Model",
             "src/Observer",
             "src/Plugin",

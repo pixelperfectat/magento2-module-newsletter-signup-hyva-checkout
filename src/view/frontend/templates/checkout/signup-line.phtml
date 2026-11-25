@@ -1,0 +1,22 @@
+<?php declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use PixelPerfect\NewsletterSignupHyvaCheckout\Magewire\Checkout\SignupLine;
+
+/** @var Escaper $escaper */
+/** @var SignupLine $magewire */
+?>
+<div id="pixelperfect-newsletter-signup-line">
+    <?php if ($magewire->shown): ?>
+        <label class="flex items-start gap-3 mt-4 text-sm cursor-pointer"
+               for="pixelperfect-newsletter-signup-opt-in"
+        >
+            <input type="checkbox"
+                   id="pixelperfect-newsletter-signup-opt-in"
+                   class="mt-0.5"
+                   wire:model="optIn"
+            />
+            <span><?= $escaper->escapeHtml($magewire->getBenefitText()) ?></span>
+        </label>
+    <?php endif ?>
+</div>
