@@ -3,14 +3,8 @@
     "source": {
         "directories": [
             "src/Api",
-            "src/Controller",
-            "src/Exception",
             "src/Magewire",
-            "src/Model",
-            "src/Observer",
-            "src/Plugin",
-            "src/Service",
-            "src/Setup"
+            "src/Service"
         ]
     },
     "mutators": {
