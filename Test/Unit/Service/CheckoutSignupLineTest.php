@@ -6,7 +6,6 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PixelPerfect\NewsletterSignup\Api\Service\CheckoutSignupInterface;
 use PixelPerfect\NewsletterSignupHyvaCheckout\Service\CheckoutSignupLine;
@@ -33,7 +32,8 @@ class CheckoutSignupLineTest extends TestCase
 
     private int $quoteId = self::CART_ID;
 
-    private LoggerInterface&MockObject $logger;
+    /** @var list<array{message: string, context: array<string, mixed>}> */
+    private array $logged = [];
 
     private CheckoutSignupLine $line;
 
@@ -66,8 +66,11 @@ class CheckoutSignupLineTest extends TestCase
             return $stored;
         });
 
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->line = new CheckoutSignupLine($session, $signup, $scopeConfig, $this->logger);
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->method('error')->willReturnCallback(function (string $message, array $context = []): void {
+            $this->logged[] = ['message' => $message, 'context' => $context];
+        });
+        $this->line = new CheckoutSignupLine($session, $signup, $scopeConfig, $logger);
     }
 
     public function testTheLineShowsWhenTheCartsEmailIsInvited(): void
@@ -96,19 +99,20 @@ class CheckoutSignupLineTest extends TestCase
         $this->assertFalse($this->line->isShown());
     }
 
-    public function testTheLineIsHiddenWithoutACart(): void
+    public function testTheLineIsHiddenWithoutACartAndNothingIsLogged(): void
     {
         $this->quoteId = 0;
 
         $this->assertFalse($this->line->isShown());
+        $this->assertSame([], $this->logged);
     }
 
     public function testTheLineIsHiddenAndTheErrorLoggedWhenTheCartCannotBeRead(): void
     {
         $this->failure = new NoSuchEntityException(__('No such cart'));
-        $this->logger->expects($this->once())->method('error');
 
         $this->assertFalse($this->line->isShown());
+        $this->assertLogged('Newsletter sign-up in Hyvä Checkout: the line could not be decided: No such cart');
     }
 
     public function testTheLineIsNeverTickedBeforeTheShopperAnswers(): void
@@ -143,30 +147,31 @@ class CheckoutSignupLineTest extends TestCase
         $this->assertSame(0, $this->storedChoice);
     }
 
-    public function testATickWithoutACartStoresNothing(): void
+    public function testATickWithoutACartStoresNothingAndLogsNothing(): void
     {
         $this->quoteId = 0;
 
         $this->assertFalse($this->line->setOptIn(true));
 
         $this->assertNull($this->storedChoice);
+        $this->assertSame([], $this->logged);
     }
 
     public function testATickThatCannotBeStoredIsLoggedAndCountsAsUnticked(): void
     {
         $this->failure = new \RuntimeException('Cart save failed');
-        $this->logger->expects($this->once())->method('error');
 
         $this->assertFalse($this->line->setOptIn(true));
+        $this->assertLogged('Newsletter sign-up in Hyvä Checkout: the choice could not be stored: Cart save failed');
     }
 
     public function testAnUnreadableChoiceIsLoggedAndCountsAsUnticked(): void
     {
         $this->storedChoice = 1;
         $this->failure = new \RuntimeException('Session gone');
-        $this->logger->expects($this->once())->method('error');
 
         $this->assertFalse($this->line->isOptedIn());
+        $this->assertLogged('Newsletter sign-up in Hyvä Checkout: the stored choice could not be read: Session gone');
     }
 
     public function testTheBenefitTextComesFromTheStoreViewSetting(): void
@@ -182,11 +187,23 @@ class CheckoutSignupLineTest extends TestCase
     }
 
     /**
-     * Core's answer for the cart; only the session's own cart is ever asked about
+     * Core's answer for a cart: like core, an unknown cart id is refused
      */
     private function invitedFor(int $cartId): bool
     {
-        $this->assertSame(self::CART_ID, $cartId);
+        if ($cartId !== self::CART_ID) {
+            throw new NoSuchEntityException(__('No such cart'));
+        }
         return $this->invited;
+    }
+
+    /**
+     * The one logged error, with the exception passed along
+     */
+    private function assertLogged(string $message): void
+    {
+        $this->assertCount(1, $this->logged);
+        $this->assertSame($message, $this->logged[0]['message']);
+        $this->assertInstanceOf(\Throwable::class, $this->logged[0]['context']['exception'] ?? null);
     }
 }

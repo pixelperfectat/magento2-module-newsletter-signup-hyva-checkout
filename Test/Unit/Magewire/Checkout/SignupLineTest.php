@@ -13,6 +13,9 @@ class SignupLineTest extends TestCase
 
     private bool $storedChoice = false;
 
+    /** @var list<bool> Choices written to the cart, in order */
+    private array $writes = [];
+
     private SignupLine $component;
 
     protected function setUp(): void
@@ -21,6 +24,7 @@ class SignupLineTest extends TestCase
         $line->method('isShown')->willReturnCallback(fn (): bool => $this->invited);
         $line->method('isOptedIn')->willReturnCallback(fn (): bool => $this->storedChoice);
         $line->method('setOptIn')->willReturnCallback(function (bool $optIn): bool {
+            $this->writes[] = $optIn;
             $this->storedChoice = $optIn && $this->invited;
             return $this->storedChoice;
         });
@@ -92,7 +96,7 @@ class SignupLineTest extends TestCase
 
         $this->assertFalse($this->component->shown);
         $this->assertFalse($this->component->optIn);
-        $this->assertFalse($this->storedChoice);
+        $this->assertSame([true, false], $this->writes, 'The tick is cleared on the cart');
     }
 
     public function testANewEmailOnTheCartThatIsInvitedShowsTheLine(): void
