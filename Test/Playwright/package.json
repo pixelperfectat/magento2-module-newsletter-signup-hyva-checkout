@@ -1,0 +1,16 @@
+{
+  "name": "newsletter-signup-hyva-checkout-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright storefront tests for the newsletter sign-up line in Hyvä Checkout",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "dotenv": "^16.4.0"
+  }
+}

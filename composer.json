@@ -75,7 +75,7 @@
         "cs": "phpcs",
         "cs:fix": "phpcbf",
         "infection": "infection --with-uncovered --min-msi=85 --min-covered-msi=90 --threads=max",
-        "lint": "parallel-lint --exclude vendor --exclude generated --exclude .superpowers .",
+        "lint": "parallel-lint --exclude vendor --exclude generated --exclude .superpowers --exclude Test/Playwright/node_modules .",
         "stan": "phpstan analyse",
         "test": "phpunit"
     }
