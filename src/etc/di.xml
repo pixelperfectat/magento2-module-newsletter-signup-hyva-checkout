@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="PixelPerfect\NewsletterSignupHyvaCheckout\Api\Service\CheckoutSignupLineInterface"
+                type="PixelPerfect\NewsletterSignupHyvaCheckout\Service\CheckoutSignupLine"/>
+
+    <!-- The core module's Tailwind registration, pointed at this module's templates -->
+    <virtualType name="PixelPerfect\NewsletterSignupHyvaCheckout\Observer\RegisterModuleForHyvaConfig"
+                 type="PixelPerfect\NewsletterSignup\Observer\RegisterModuleForHyvaConfig">
+        <arguments>
+            <argument name="moduleName" xsi:type="string">PixelPerfect_NewsletterSignupHyvaCheckout</argument>
+        </arguments>
+    </virtualType>
+</config>

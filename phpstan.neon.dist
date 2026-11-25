@@ -9,3 +9,6 @@ parameters:
         - src
     excludePaths:
         - '*.sync-conflict-*'
+    # Magewire ships with the commercial Hyvä Checkout and is not installable in CI: analyse against a stand-in.
+    scanFiles:
+        - Test/Stubs/Component.php

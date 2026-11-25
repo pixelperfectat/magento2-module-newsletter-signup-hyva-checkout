@@ -3,13 +3,8 @@
     "source": {
         "directories": [
             "src/Api",
-            "src/Controller",
-            "src/Exception",
-            "src/Model",
-            "src/Observer",
-            "src/Plugin",
-            "src/Service",
-            "src/Setup"
+            "src/Magewire",
+            "src/Service"
         ]
     },
     "mutators": {
@@ -18,6 +13,7 @@
     "minMsi": 85,
     "minCoveredMsi": 90,
     "testFramework": "phpunit",
+    "bootstrap": "Test/bootstrap.php",
     "logs": {
         "text": "var/infection.log"
     }
