@@ -13,6 +13,7 @@
     "minMsi": 85,
     "minCoveredMsi": 90,
     "testFramework": "phpunit",
+    "bootstrap": "Test/bootstrap.php",
     "logs": {
         "text": "var/infection.log"
     }
