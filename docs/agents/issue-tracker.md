@@ -12,11 +12,14 @@ These follow the pixelperfectat module issue-tracking rule. They add to the comm
   commit keyword and the changelog section: `added`, `changed`, `fixed`, `deprecated`, `removed` or `security`.
   Add `source:internal` (or `source:customer` when the work came from a customer request). Triage-role labels
   (see `triage-labels.md`) come on top.
-- **The spec lives in the core repo.** This module is part of the newsletter-signup feature, whose
-  `Feature: <name>` parent issue is in `pixelperfectat/magento2-module-newsletter-signup`. Do not create a
-  `Feature:` issue or run `/to-spec` here. Tickets for this repo are titled `Task: <name>` and are made
-  cross-repo sub-issues of that parent (the API form below takes a sub-issue from another repo in the same
-  organisation: pass this repo's issue database id to the core repo's `issues/<parent>/sub_issues`).
+- **Specs live in the repo, and this feature's spec is in core.** A spec is a file under `docs/specs/<feature-slug>.md`,
+  committed through a pull request; its `Feature: <name>` parent issue only links to it. The newsletter-signup
+  spec and its parent issue are in `pixelperfectat/magento2-module-newsletter-signup`
+  (`docs/specs/newsletter-signup.md`). Do not create a `Feature:` issue or a spec for it here. Tickets for this
+  repo are titled `Task: <name>` and are cross-repo sub-issues of that parent (the API form below takes a
+  sub-issue from another repo in the same organisation: pass this repo's issue database id to the core repo's
+  `issues/<parent>/sub_issues`). A feature that belongs to this module alone gets its spec in this repo's
+  `docs/specs/`, the same way.
 - **Sub-issues with this `gh` (older than 2.94):** use the API form from **Make an issue a sub-issue of a parent**.
 - **Commits** keep the keyword-first subject and end with the issue: `Add subscription status check (#3)`. The
   commit that finishes the issue adds a `Closes #3` trailer.
