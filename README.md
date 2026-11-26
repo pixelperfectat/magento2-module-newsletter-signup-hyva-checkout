@@ -50,7 +50,7 @@ subscriber sees no line.
 
 ## Status
 
-In development, not released yet. The first release is `0.1.0`.
+Released. See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

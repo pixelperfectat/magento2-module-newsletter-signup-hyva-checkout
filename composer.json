@@ -10,7 +10,7 @@
         "magento/module-checkout": "^100.4",
         "magento/module-quote": "^101.2",
         "magento/module-store": "^101.1",
-        "pixelperfectat/magento2-module-newsletter-signup": "^0.1@dev"
+        "pixelperfectat/magento2-module-newsletter-signup": "^0.1"
     },
     "require-dev": {
         "infection/infection": "^0.35",
@@ -24,10 +24,6 @@
         {
             "type": "composer",
             "url": "https://repo.magento.com/"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/pixelperfectat/magento2-module-newsletter-signup"
         }
     ],
     "autoload": {
